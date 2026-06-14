@@ -80,7 +80,16 @@ public final class Crc16Validate {
     }
 
     private static Function<String, String> calcCrc16() {
-      return value -> String.format("%04X", CRC.crc16(value.substring(0, value.length() - 4).getBytes(StandardCharsets.UTF_8)));
+      return value -> {
+        final byte[] bytes = value.substring(0, value.length() - 4).getBytes(StandardCharsets.UTF_8);
+        if (bytes == null) {
+          throw new NullPointerException("value must not be null");
+        }
+        if (bytes.length == 0) {
+          throw new IllegalArgumentException("value must not be empty");
+        }
+        return String.format("%04X", CRC.crc16(bytes));
+      };
     }
 
   }

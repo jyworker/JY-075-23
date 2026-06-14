@@ -38,6 +38,13 @@ public final class CRC {
    *      Redundancy Check</a>
    */
   public static int crc16(final byte[] value) {
+    if (value == null) {
+      throw new NullPointerException("value must not be null");
+    }
+    if (value.length == 0) {
+      throw new IllegalArgumentException("value must not be empty");
+    }
+
     final int polynomial = 0x1021; // 0001 0000 0010 0001 (0, 5, 12)
 
     int result = 0xFFFF; // initial value

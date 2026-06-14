@@ -18,6 +18,7 @@ package com.emv.qrcode.core;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -30,6 +31,16 @@ public class CRCTest {
     final int crc16 = CRC.crc16(value.getBytes());
 
     assertThat(String.format("%04X", crc16), equalTo("A13A"));
+  }
+
+  @Test
+  public void testCrc16ThrowsNullPointerExceptionForNull() {
+    assertThrows(NullPointerException.class, () -> CRC.crc16(null));
+  }
+
+  @Test
+  public void testCrc16ThrowsIllegalArgumentExceptionForEmptyArray() {
+    assertThrows(IllegalArgumentException.class, () -> CRC.crc16(new byte[0]));
   }
 
 }
